@@ -44,22 +44,23 @@ class SearchInfo extends Component {
   }
 
   handleLoadMore = () => {
-    this.setState((prevState) => ({
-      page: prevState.page + 1,
-      loading: true,
-    }));
-
-    setTimeout(() => {
-      fetchImage(this.props.imageName, this.state.page).then((data) =>
-        this.setState((prevState) => {
-          return {
-            images: [...prevState.images, ...data.hits],
-            status: "resolved",
-            loading: false,
-          };
-        })
-      );
-    }, 500);
+    this.setState(
+      (prevState) => ({
+        page: prevState.page + 1,
+        loading: true,
+      }),
+      () => {
+        fetchImage(this.props.imageName, this.state.page).then((data) =>
+          this.setState((prevState) => {
+            return {
+              images: [...prevState.images, ...data.hits],
+              status: "resolved",
+              loading: false,
+            };
+          })
+        );
+      }
+    );
   };
 
   openModal = () => {
